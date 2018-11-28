@@ -22,7 +22,7 @@
 # Ubuntu-based, CPU-only environment for developing changes for TensorFlow, with Jupyter included.
 #
 # Start from Ubuntu, with TF development packages (no GPU support)
-# --build-arg UBUNTU_VERSION=16.04
+# --build-arg UBUNTU_VERSION=18.04
 #    ( no description )
 #
 # Python is required for TensorFlow and other libraries.
@@ -35,7 +35,7 @@
 #
 # Launch Jupyter on execution instead of a bash prompt.
 
-ARG UBUNTU_VERSION=16.04
+ARG UBUNTU_VERSION=18.04
 FROM ubuntu:${UBUNTU_VERSION}
 
 RUN apt-get update && apt-get install -y --no-install-recommends \

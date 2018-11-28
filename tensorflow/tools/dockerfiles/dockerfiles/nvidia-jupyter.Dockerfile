@@ -22,7 +22,7 @@
 # Ubuntu-based, Nvidia-GPU-enabled environment for using TensorFlow, with Jupyter included.
 #
 # NVIDIA with CUDA and CuDNN, no dev stuff
-# --build-arg UBUNTU_VERSION=16.04
+# --build-arg UBUNTU_VERSION=18.04
 #    ( no description )
 #
 # Python is required for TensorFlow and other libraries.
@@ -37,19 +37,23 @@
 #
 # Launch Jupyter on execution instead of a bash prompt.
 
-FROM nvidia/cuda:9.0-base-ubuntu16.04
+ARG UBUNTU_VERSION=18.04
+ARG CUDA_VERSION=9.2
+ARG CUDNN_VERSION=7.4.1.5
+ARG NCCL_VERSION=2.3.7
+FROM nvidia/cuda:${CUDA_VERSION}-base-ubuntu${UBUNTU_VERSION}
 
 # Pick up some TF dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
-        cuda-command-line-tools-9-0 \
-        cuda-cublas-9-0 \
-        cuda-cufft-9-0 \
-        cuda-curand-9-0 \
-        cuda-cusolver-9-0 \
-        cuda-cusparse-9-0 \
-        libcudnn7=7.2.1.38-1+cuda9.0 \
-        libnccl2=2.2.13-1+cuda9.0 \
+        cuda-command-line-tools-${CUDA_VERSION} \
+        cuda-cublas-${CUDA_VERSION} \
+        cuda-cufft-${CUDA_VERSION} \
+        cuda-curand-${CUDA_VERSION} \
+        cuda-cusolver-${CUDA_VERSION} \
+        cuda-cusparse-${CUDA_VERSION} \
+        libcudnn7=${CUDNN_VERSION}-1+cuda${CUDA_VERSION} \
+        libnccl2=${NCCL_VERSION}-1+cuda${CUDA_VERSION} \
         libfreetype6-dev \
         libhdf5-serial-dev \
         libpng12-dev \
@@ -61,10 +65,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && \
-        apt-get install nvinfer-runtime-trt-repo-ubuntu1604-4.0.1-ga-cuda9.0 && \
-        apt-get update && \
-        apt-get install libnvinfer4=4.1.2-1+cuda9.0
+# probably do not need infer
+# RUN apt-get update && \
+#         apt-get install nvinfer-runtime-trt-repo-ubuntu1604-4.0.1-ga-cuda${CUDA_VERSION} && \
+#         apt-get update && \
+#         apt-get install libnvinfer4=4.1.2-1+cuda${CUDA_VERSION}
 
 ARG USE_PYTHON_3_NOT_2=True
 ARG _PY_SUFFIX=${USE_PYTHON_3_NOT_2:+3}

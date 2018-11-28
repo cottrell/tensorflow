@@ -22,7 +22,7 @@
 # Ubuntu-based, CPU-only environment for using TensorFlow
 #
 # Start from Ubuntu (no GPU support)
-# --build-arg UBUNTU_VERSION=16.04
+# --build-arg UBUNTU_VERSION=18.04
 #    ( no description )
 #
 # Python is required for TensorFlow and other libraries.
@@ -35,7 +35,7 @@
 #
 # Configure TensorFlow's shell prompt and login tools.
 
-ARG UBUNTU_VERSION=16.04
+ARG UBUNTU_VERSION=18.04
 FROM ubuntu:${UBUNTU_VERSION}
 
 ARG USE_PYTHON_3_NOT_2=True

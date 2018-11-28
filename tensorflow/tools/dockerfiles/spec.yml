@@ -47,12 +47,12 @@ partials:
     ubuntu:
         desc: Start from Ubuntu (no GPU support)
         args:
-            UBUNTU_VERSION: 16.04
+            UBUNTU_VERSION: 18.04
 
     ubuntu-devel:
         desc: Start from Ubuntu, with TF development packages (no GPU support)
         args:
-            UBUNTU_VERSION: 16.04
+            UBUNTU_VERSION: 18.04
 
     bazel:
         desc: Install the latest version of Bazel and Python development tools.
@@ -60,14 +60,14 @@ partials:
     nvidia:
         desc: NVIDIA with CUDA and CuDNN, no dev stuff
         args:
-            UBUNTU_VERSION: 16.04
+            UBUNTU_VERSION: 18.04
 
     nvidia-devel:
         desc: >
             Start from Nvidia's Ubuntu base image with CUDA and CuDNN, with TF
             development packages.
         args:
-            UBUNTU_VERSION: 16.04
+            UBUNTU_VERSION: 18.04
 
     python:
         desc: Python is required for TensorFlow and other libraries.
