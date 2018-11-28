@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libnccl2=${NCCL_VERSION}-1+cuda${CUDA_VERSION} \
         libfreetype6-dev \
         libhdf5-serial-dev \
-        libpng12-dev \
+        libpng-dev \
         libzmq3-dev \
         pkg-config \
         software-properties-common \

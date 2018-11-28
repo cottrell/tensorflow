@@ -25,6 +25,12 @@
 # packages.
 # --build-arg UBUNTU_VERSION=18.04
 #    ( no description )
+# --build-arg CUDA_VERSION=9.2
+#    ( no description )
+# --build-arg CUDNN_VERSION=7.4.1.5
+#    ( no description )
+# --build-arg NCCL_VERSION=2.3.7
+#    ( no description )
 #
 # Python is required for TensorFlow and other libraries.
 # --build-arg USE_PYTHON_3_NOT_2=True
@@ -60,7 +66,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         libcurl3-dev \
         libfreetype6-dev \
         libhdf5-serial-dev \
-        libpng12-dev \
+        libpng-dev \
         libzmq3-dev \
         pkg-config \
         rsync \
