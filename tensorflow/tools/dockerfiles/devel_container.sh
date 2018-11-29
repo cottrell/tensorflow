@@ -7,4 +7,4 @@ fi
 vol=$(realpath $vol)
 # make it otherwise root owns it
 mkdir -p $vol
-docker run --runtime=nvidia -it -v $vol:/tmp --rm --name tf_devel cottrell/tensorflow:nvidia-devel /bin/bash
+docker run --runtime=nvidia -it -v $vol:/tmp/docker_volume --rm --name tf_devel cottrell/tensorflow:nvidia-devel /bin/bash

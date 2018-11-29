@@ -32,5 +32,14 @@ bazel test -c opt -- //tensorflow/... -//tensorflow/compiler/... -//tensorflow/c
 # gpu
 bazel build --config=opt --config=cuda //tensorflow/tools/pip_package:build_pip_package
 
+# last time ran got Executed 1782 out of 1782 tests: 1725 tests pass and 57 fail locally.
+
+./configure # answer questions, not sure how to save/automate the answers
+# want to try --config=mkl next time
+
+# gpu
+bazel build --config=opt --config=cuda //tensorflow/tools/pip_package:build_pip_package
+
+
 # then run the package builder, probably need to bind mount at the top to get at this
-./bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg
+./bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/docker_volume/tensorflow_pkg
