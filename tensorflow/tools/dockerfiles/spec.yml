@@ -43,6 +43,8 @@ header: |
 #             options: List of strings, part of documentation
 #         - a concrete value: the same as a dictionary with default: [value].
 
+# TF_CUDA_VERSION and not CUDA_VERSION as that interferes with the ENV in nvidia/cuda images. And those contain extra ".148" for example.
+
 partials:
     ubuntu:
         desc: Start from Ubuntu (no GPU support)
@@ -61,9 +63,7 @@ partials:
         desc: NVIDIA with CUDA and CuDNN, no dev stuff
         args:
             UBUNTU_VERSION: 18.04
-            CUDA_VERSION: 9.2
-            CUDNN_VERSION: 7.4.1.5
-            NCCL_VERSION: 2.3.7
+            TF_CUDA_VERSION: 9.2
 
     nvidia-devel:
         desc: >
@@ -71,9 +71,7 @@ partials:
             development packages.
         args:
             UBUNTU_VERSION: 18.04
-            CUDA_VERSION: 9.2
-            CUDNN_VERSION: 7.4.1.5
-            NCCL_VERSION: 2.3.7
+            TF_CUDA_VERSION: 9.2
 
     python:
         desc: Python is required for TensorFlow and other libraries.
