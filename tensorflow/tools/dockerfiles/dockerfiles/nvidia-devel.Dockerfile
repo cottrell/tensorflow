@@ -39,6 +39,9 @@
 ARG UBUNTU_VERSION=18.04
 ARG TF_CUDA_VERSION=9.2
 FROM nvidia/cuda:${TF_CUDA_VERSION}-cudnn7-devel-ubuntu${UBUNTU_VERSION}
+# yes, this needs to be before *and* after or just hard-code the above. https://stackoverflow.com/questions/50291827/why-cant-i-use-the-build-arg-again-after-from-in-a-dockerfile
+# could also use ENV TF_CUDA_VERSION=$TF_CUDA_VERSION or something like that but then you persist the ENV var.
+ARG TF_CUDA_VERSION=9.2
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
@@ -61,14 +64,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     find /usr/local/cuda-${TF_CUDA_VERSION}/lib64/ -type f -name 'lib*_static.a' -not -name 'libcudart_static.a' -delete && \
     rm /usr/lib/x86_64-linux-gnu/libcudnn_static_v7.a
 
-# Link NCCL libray and header where the build script expects them.
-RUN mkdir /usr/local/cuda-${TF_CUDA_VERSION}/lib &&  \
-    ln -s /usr/lib/x86_64-linux-gnu/libnccl.so.2 /usr/local/cuda/lib/libnccl.so.2 && \
-    ln -s /usr/include/nccl.h /usr/local/cuda/include/nccl.h
+# Not sure if this are still needed
+# # Link NCCL libray and header where the build script expects them.
+# RUN mkdir /usr/local/cuda-${TF_CUDA_VERSION}/lib &&  \
+#     ln -s /usr/lib/x86_64-linux-gnu/libnccl.so.2 /usr/local/cuda/lib/libnccl.so.2 && \
+#     ln -s /usr/include/nccl.h /usr/local/cuda/include/nccl.h
 
-# TODO(tobyboyd): Remove after license is excluded from BUILD file.
-RUN gunzip /usr/share/doc/libnccl2/NCCL-SLA.txt.gz && \
-    cp /usr/share/doc/libnccl2/NCCL-SLA.txt /usr/local/cuda/
+# # TODO(tobyboyd): Remove after license is excluded from BUILD file.
+# RUN gunzip /usr/share/doc/libnccl2/NCCL-SLA.txt.gz && \
+#     cp /usr/share/doc/libnccl2/NCCL-SLA.txt /usr/local/cuda/
 
 ARG USE_PYTHON_3_NOT_2=True
 ARG _PY_SUFFIX=${USE_PYTHON_3_NOT_2:+3}
@@ -98,10 +102,18 @@ RUN apt-get update && apt-get install -y \
 RUN apt-get install -y gpg-agent
 
 # Install bazel
-RUN echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" | tee /etc/apt/sources.list.d/bazel.list && \
-    curl https://bazel.build/bazel-release.pub.gpg | apt-key add - && \
-    apt-get update && \
-    apt-get install -y bazel
+# https://github.com/tensorflow/tensorflow/issues/23554
+# RUN echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" | tee /etc/apt/sources.list.d/bazel.list && \
+#     curl https://bazel.build/bazel-release.pub.gpg | apt-key add - && \
+#     apt-get update && \
+#     apt-get install -y bazel
+
+# do I need python in this list?
+RUN apt-get install -y pkg-config zip g++ zlib1g-dev unzip libc-ares-dev && \
+    wget https://github.com/bazelbuild/bazel/releases/download/0.18.1/bazel-0.18.1-installer-linux-x86_64.sh && \
+    bash bazel-0.18.1-installer-linux-x86_64.sh
+
+
 
 COPY bashrc /etc/bash.bashrc
 RUN chmod a+rwx /etc/bash.bashrc
